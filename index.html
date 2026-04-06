@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=300, height=250, initial-scale=1.0" />
+  <meta name="ad.size" content="width=300,height=250" />
+  <script type="text/javascript" src="https://ds.serving-sys.ru/BurstingScript/EBLoader.js"></script>
+  <title>RBC Mobile 300x250 Leopard</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 300px;
+      height: 250px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .banner {
+      display: block;
+      position: relative;
+      width: 300px;
+      height: 250px;
+      overflow: hidden;
+      background: #000;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .layer {
+      position: absolute;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    .bg {
+      left: 0;
+      top: 0;
+      width: 300px;
+      height: 250px;
+      z-index: 0;
+    }
+
+    .bottom-fade {
+      left: 0;
+      bottom: 0;
+      width: 300px;
+      height: 96px;
+      z-index: 3;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .2) 40%, rgba(0, 0, 0, .76) 100%);
+    }
+
+    .corner-logo {
+      right: 10px;
+      bottom: 10px;
+      width: 62px;
+      height: 46px;
+      z-index: 4;
+      opacity: 1;
+      will-change: opacity;
+      animation: cornerLogoFade .35s ease-out 1.05s forwards;
+    }
+
+    .boss,
+    .leopard {
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-origin: center center;
+    }
+
+    .boss {
+      left: 0;
+      top: 0;
+      width: 300px;
+      height: 250px;
+      z-index: 1;
+      transform: translate3d(-150px, 125px, 0) scale3d(2.244, 2.244, 1);
+      animation: bossAnim 8.2s cubic-bezier(.22, .61, .36, 1) forwards;
+    }
+
+    .leopard {
+      left: 150px;
+      top: 33px;
+      width: 153px;
+      height: 217px;
+      z-index: 2;
+      transform: translate3d(20px, 182px, 0) scale3d(2.8861, 2.8861, 1);
+      animation: leopardAnim 8.2s cubic-bezier(.22, .61, .36, 1) forwards;
+    }
+
+    .offer-card,
+    .bottom-panel-glow,
+    .cta-button,
+    .disclaimer {
+      position: absolute;
+      z-index: 5;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+    }
+
+    .bottom-panel-glow {
+      left: 0;
+      bottom: 0;
+      width: 300px;
+      height: 78px;
+      background: linear-gradient(180deg, rgba(111, 116, 126, 0) 0%, rgba(111, 116, 126, .9) 100%);
+      opacity: 0;
+      z-index: 4;
+      transform: translate3d(0, 42px, 0);
+      animation: bottomPanelGlowReveal 1s cubic-bezier(.2, .8, .2, 1) 1.5s forwards;
+    }
+
+    .offer-card {
+      left: 50%;
+      bottom: 18px;
+      width: 290px;
+      height: 78px;
+      margin-left: -145px;
+      padding: 10px;
+      border-radius: 14px;
+      background: #000;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .22);
+      transform: translate3d(0, 120px, 0);
+      animation:
+        cardReveal 1.15s cubic-bezier(.2, .8, .2, 1) 1.5s forwards,
+        cardLift 1.2s cubic-bezier(.22, .7, .2, 1) 4.9s forwards;
+    }
+
+    .offer-title {
+      margin: 0;
+      width: 173px;
+      height: 41px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-row {
+      position: relative;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .title-row.row-1,
+    .title-row.row-2 {
+      overflow: hidden;
+    }
+
+    .title-row.row-1 {
+      height: 15px;
+      width: 173px;
+    }
+
+    .title-row.row-2 {
+      height: 22px;
+      width: 166.53px;
+    }
+
+    .title-face {
+      position: absolute;
+      inset: 0;
+      display: block;
+      will-change: transform, opacity;
+      transform-origin: 0 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .title-face img,
+    .title-face svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: block;
+      width: auto;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .title-row.row-1 .title-face.current img,
+    .title-row.row-1 .title-face.current svg {
+      width: 173px;
+      height: 15px;
+    }
+
+    .title-row.row-1 .title-face.next img,
+    .title-row.row-1 .title-face.next svg {
+      width: 165.84px;
+      height: 17.64px;
+    }
+
+    .title-row.row-2 .title-face.current img,
+    .title-row.row-2 .title-face.current svg {
+      width: 123.13px;
+      height: 17.64px;
+    }
+
+    .title-row.row-2 .title-face.next img,
+    .title-row.row-2 .title-face.next svg {
+      width: 166.53px;
+      height: 22.42px;
+    }
+
+    .title-face.current {
+      opacity: 0;
+      transform: translateY(100%);
+      animation:
+        titleCurrentEnter 1.28s cubic-bezier(.22, .61, .36, 1) forwards,
+        titleCurrentFlip 1.12s cubic-bezier(.22, .61, .36, 1) forwards;
+    }
+
+    .title-face.next {
+      opacity: 0;
+      transform: translateY(100%);
+      animation: titleNextFlip 1.12s cubic-bezier(.22, .61, .36, 1) forwards;
+    }
+
+    .title-row.row-1 .title-face.current {
+      animation-delay: 2.38s, 4.98s;
+    }
+
+    .title-row.row-2 .title-face.current {
+      animation-delay: 2.38s, 5.12s;
+    }
+
+    .title-row.row-1 .title-face.next {
+      animation-delay: 4.98s;
+    }
+
+    .title-row.row-2 .title-face.next {
+      animation-delay: 5.12s;
+    }
+
+    .offer-bottom {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    .t2-logo {
+      display: block;
+      width: 59.13px;
+      height: 43.54px;
+      opacity: 0;
+      transform: translate3d(0, 22px, 0) scale(.92);
+      transform-origin: 50% 100%;
+      animation: logoReveal .82s cubic-bezier(.2, .8, .2, 1) 2.62s forwards;
+    }
+
+    .t2-logo:not([src]),
+    .final-screen-logo:not([src]) {
+      visibility: hidden;
+    }
+
+    .cta-button {
+      left: 50%;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 290px;
+      height: 31px;
+      margin-left: -145px;
+      border: 0;
+      border-radius: 999px;
+      background: #FF3495;
+      transform: translate3d(0, 78px, 0);
+      opacity: 0;
+      animation: buttonReveal 1.1s cubic-bezier(.22, .7, .2, 1) 4.9s forwards;
+    }
+
+    .cta-button img {
+      display: block;
+      width: 108px;
+      height: auto;
+    }
+
+    .disclaimer {
+      left: 4px;
+      bottom: 5px;
+      z-index: 6;
+      width: 290px;
+      font-weight: 400;
+      font-size: 5px;
+      line-height: 1.1;
+      color: rgba(255, 255, 255, .96);
+      text-align: left;
+    }
+
+    .final-fade {
+      inset: 0;
+      z-index: 10;
+      background: #000;
+      opacity: 0;
+      animation: finalFade .55s ease-out 7.85s forwards;
+    }
+
+    .final-screen {
+      inset: 0;
+      z-index: 11;
+      opacity: 0;
+      animation: finalScreenReveal .7s ease-out 8.2s forwards;
+    }
+
+    .final-screen-logo {
+      left: 50%;
+      top: 78px;
+      width: 135.82px;
+      height: 100px;
+      transform: translate3d(-50%, 18px, 0);
+      opacity: 0;
+      animation: finalScreenLogo .75s cubic-bezier(.22, .72, .2, 1) 8.22s forwards;
+    }
+
+    .final-screen-copy {
+      left: 50%;
+      bottom: 16px;
+      width: 268px;
+      transform: translateX(-50%);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 6.3px;
+      line-height: 1.1;
+      font-weight: 400;
+      text-align: center;
+      color: #fff;
+      opacity: 0;
+      animation: finalScreenText .75s ease-out 8.32s forwards;
+    }
+
+    @keyframes leopardAnim {
+      from {
+        transform: translate3d(20px, 182px, 0) scale3d(2.8861, 2.8861, 1);
+        animation-timing-function: cubic-bezier(.48, .02, .82, .62);
+      }
+
+      12% {
+        transform: translate3d(19px, 171px, 0) scale3d(2.773, 2.773, 1);
+        animation-timing-function: cubic-bezier(.18, .72, .18, 1);
+      }
+
+      95% {
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      }
+
+      to {
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      }
+    }
+
+    @keyframes bossAnim {
+      from {
+        transform: translate3d(-150px, 125px, 0) scale3d(2.244, 2.244, 1);
+        animation-timing-function: cubic-bezier(.48, .02, .82, .62);
+      }
+
+      12% {
+        transform: translate3d(-141px, 118px, 0) scale3d(2.169, 2.169, 1);
+        animation-timing-function: cubic-bezier(.18, .72, .18, 1);
+      }
+
+      95% {
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      }
+
+      to {
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      }
+    }
+
+    @keyframes cardReveal {
+      from {
+        transform: translate3d(0, 120px, 0);
+      }
+
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes cardLift {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(0, -34px, 0);
+      }
+    }
+
+    @keyframes bottomPanelGlowReveal {
+      from {
+        transform: translate3d(0, 42px, 0);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes buttonReveal {
+      from {
+        transform: translate3d(0, 78px, 0);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes logoReveal {
+      from {
+        transform: translate3d(0, 22px, 0) scale(.92);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes titleCurrentEnter {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes titleCurrentFlip {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-115%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes titleNextFlip {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes cornerLogoFade {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes finalFade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes finalScreenReveal {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes finalScreenLogo {
+      from {
+        transform: translate3d(-50%, 18px, 0);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(-50%, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes finalScreenText {
+      from {
+        transform: translate3d(-50%, 10px, 0);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate3d(-50%, 0, 0);
+        opacity: 0.7;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="banner" id="button1" href="%banner.reference_mrc_user1%" target="%banner.target%" aria-label="RBC Mobile 300x250 Leopard">
+    <img class="layer bg" src="bg.png" alt="" />
+    <img class="layer boss" src="boss.png" alt="" />
+    <img class="layer leopard" src="leopard.png" alt="" />
+    <img class="layer corner-logo" src="logo.png" alt="" aria-hidden="true" />
+    <div class="layer bottom-fade" aria-hidden="true"></div>
+    <div class="bottom-panel-glow" aria-hidden="true"></div>
+    <div class="offer-card">
+      <div class="offer-title" aria-label="headline animation">
+        <span class="title-row row-1">
+          <span class="title-face current">
+            <svg width="173" height="15" viewBox="0 0 173 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M164.026 15.004C162.28 15.004 160.74 14.7033 159.406 14.102C158.086 13.486 157.066 12.6207 156.348 11.506C155.629 10.3767 155.27 9.07133 155.27 7.59V7.436C155.27 5.94 155.629 4.63467 156.348 3.52C157.066 2.39067 158.086 1.52533 159.406 0.924C160.74 0.308 162.28 0 164.026 0C165.8 0 167.348 0.308 168.668 0.924C169.988 1.52533 171.007 2.39067 171.726 3.52C172.444 4.63467 172.804 5.94 172.804 7.436V7.59C172.804 9.086 172.444 10.3913 171.726 11.506C171.007 12.6207 169.988 13.486 168.668 14.102C167.348 14.7033 165.8 15.004 164.026 15.004ZM164.026 11.374C167.238 11.374 168.844 10.1347 168.844 7.656V7.392C168.844 6.16 168.433 5.22867 167.612 4.598C166.805 3.95267 165.61 3.63 164.026 3.63C162.471 3.63 161.283 3.95267 160.462 4.598C159.64 5.24333 159.23 6.17467 159.23 7.392V7.656C159.23 8.87333 159.633 9.79733 160.44 10.428C161.246 11.0587 162.442 11.374 164.026 11.374Z" fill="white"/>
+              <path d="M138.146 0.286133H142.04V5.76413H149.146V0.286133H153.04V14.7181H149.146V9.24013H142.04V14.7181H138.146V0.286133Z" fill="white"/>
+              <path d="M135.246 14.7181H131.352V9.72413C129.841 9.92947 128.441 10.0321 127.15 10.0321C124.906 10.0321 123.212 9.5628 122.068 8.62413C120.939 7.68547 120.374 6.2848 120.374 4.42213V0.286133H124.268V4.07013C124.268 4.9208 124.547 5.54413 125.104 5.94013C125.661 6.32147 126.541 6.51213 127.744 6.51213C128.771 6.51213 129.973 6.45347 131.352 6.33613V0.286133H135.246V14.7181Z" fill="white"/>
+              <path d="M102.987 0.286133H106.837V9.35013L113.987 0.286133H117.881V14.7181H114.031V5.65413L106.881 14.7181H102.987V0.286133Z" fill="white"/>
+              <path d="M84.1779 11.2421H84.7059C85.5272 11.2421 86.1065 11.0221 86.4439 10.5821C86.7959 10.1421 86.9865 9.37947 87.0159 8.29413L87.1699 0.286133H100.084V14.7181H96.1899V3.78413H90.6899L90.5799 8.60213C90.5505 10.6261 90.1032 12.1515 89.2379 13.1781C88.3872 14.2048 87.1259 14.7181 85.4539 14.7181H84.1779V11.2421Z" fill="white"/>
+              <path d="M67.9344 0.286133H71.7845V9.35013L78.9345 0.286133H82.8285V14.7181H78.9785V5.65413L71.8285 14.7181H67.9344V0.286133Z" fill="white"/>
+              <path d="M50.838 0.286133H60.1C61.8747 0.286133 63.2607 0.711466 64.258 1.56213C65.27 2.39813 65.776 3.5568 65.776 5.03813V5.25813C65.776 6.73947 65.27 7.90547 64.258 8.75613C63.2607 9.6068 61.8747 10.0321 60.1 10.0321H54.732V14.7181H50.838V0.286133ZM60.012 6.64413C60.5987 6.64413 61.046 6.5268 61.354 6.29213C61.662 6.05747 61.816 5.7128 61.816 5.25813V5.03813C61.816 4.59813 61.662 4.2608 61.354 4.02613C61.046 3.79147 60.5987 3.67413 60.012 3.67413H54.732V6.64413H60.012Z" fill="white"/>
+              <path d="M33.4838 0.286133H47.9378V14.7181H44.0438V3.76213H37.3778V14.7181H33.4838V0.286133Z" fill="white"/>
+              <path d="M17.8054 0.286133H30.9174V3.65213H21.6994V5.83013H30.4774V9.15213H21.6994V11.3521H30.9174V14.7181H17.8054V0.286133Z" fill="white"/>
+              <path d="M0 0.286133H3.894V5.76413H11V0.286133H14.894V14.7181H11V9.24013H3.894V14.7181H0V0.286133Z" fill="white"/>
+            </svg>
+          </span>
+          <span class="title-face next">
+            <svg width="166" height="18" viewBox="0 0 166 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M152.729 0.286133H165.841V3.65213H156.623V5.83013H165.401V9.15213H156.623V11.3521H165.841V14.7181H152.729V0.286133Z" fill="white"/>
+              <path d="M141.83 3.76213H136.484V0.286133H151.07V3.76213H145.724V14.7181H141.83V3.76213Z" fill="white"/>
+              <path d="M119.933 0.286133H123.783V9.35013L130.933 0.286133H134.827V14.7181H130.977V5.65413L123.827 14.7181H119.933V0.286133Z" fill="white"/>
+              <path d="M99.7765 11.2421H101.602C102.336 10.0835 102.724 8.60947 102.768 6.82013L102.9 0.286133H115.902V11.2421H118.124V17.6441H114.23V14.7181H103.67V17.6441H99.7765V11.2421ZM112.008 11.2421V3.78413H106.42L106.354 6.84213C106.31 8.6608 105.966 10.1275 105.32 11.2421H112.008Z" fill="white"/>
+              <path d="M90.935 15.004C89.1896 15.004 87.6496 14.7033 86.315 14.102C84.995 13.486 83.9756 12.6207 83.257 11.506C82.5383 10.3767 82.179 9.07133 82.179 7.59V7.436C82.179 5.94 82.5383 4.63467 83.257 3.52C83.9756 2.39067 84.995 1.52533 86.315 0.924C87.6496 0.308 89.1896 0 90.935 0C92.7096 0 94.257 0.308 95.577 0.924C96.897 1.52533 97.9163 2.39067 98.635 3.52C99.3536 4.63467 99.713 5.94 99.713 7.436V7.59C99.713 9.086 99.3536 10.3913 98.635 11.506C97.9163 12.6207 96.897 13.486 95.577 14.102C94.257 14.7033 92.7096 15.004 90.935 15.004ZM90.935 11.374C94.147 11.374 95.753 10.1347 95.753 7.656V7.392C95.753 6.16 95.3423 5.22867 94.521 4.598C93.7143 3.95267 92.519 3.63 90.935 3.63C89.3803 3.63 88.1923 3.95267 87.371 4.598C86.5496 5.24333 86.139 6.17467 86.139 7.392V7.656C86.139 8.87333 86.5423 9.79733 87.349 10.428C88.1556 11.0587 89.351 11.374 90.935 11.374Z" fill="white"/>
+              <path d="M65.8075 0.286133H74.5635C76.3088 0.286133 77.6582 0.623466 78.6115 1.29813C79.5648 1.9728 80.0415 2.93347 80.0415 4.18013V4.40013C80.0415 5.66147 79.5355 6.64413 78.5235 7.34813C79.1688 7.68547 79.6602 8.11813 79.9975 8.64613C80.3348 9.17413 80.5035 9.79013 80.5035 10.4941V10.7141C80.5035 11.9608 80.0122 12.9435 79.0295 13.6621C78.0615 14.3661 76.7195 14.7181 75.0035 14.7181H65.8075V0.286133ZM74.9155 11.3741C75.9862 11.3741 76.5215 11.0075 76.5215 10.2741V10.0541C76.5215 9.33547 75.9862 8.97613 74.9155 8.97613H69.7015V11.3741H74.9155ZM74.5635 5.91813C75.1062 5.91813 75.5022 5.83747 75.7515 5.67613C76.0155 5.50013 76.1475 5.23613 76.1475 4.88413V4.66413C76.1475 3.9748 75.6195 3.63013 74.5635 3.63013H69.7015V5.91813H74.5635Z" fill="white"/>
+              <path d="M50.129 0.286133H63.241V3.65213H54.023V5.83013H62.801V9.15213H54.023V11.3521H63.241V14.7181H50.129V0.286133Z" fill="white"/>
+              <path d="M33.0326 0.286133H42.2946C44.0693 0.286133 45.4553 0.711466 46.4526 1.56213C47.4646 2.39813 47.9706 3.5568 47.9706 5.03813V5.25813C47.9706 6.73947 47.4646 7.90547 46.4526 8.75613C45.4553 9.6068 44.0693 10.0321 42.2946 10.0321H36.9266V14.7181H33.0326V0.286133ZM42.2066 6.64413C42.7933 6.64413 43.2406 6.5268 43.5486 6.29213C43.8566 6.05747 44.0106 5.7128 44.0106 5.25813V5.03813C44.0106 4.59813 43.8566 4.2608 43.5486 4.02613C43.2406 3.79147 42.7933 3.67413 42.2066 3.67413H36.9266V6.64413H42.2066Z" fill="white"/>
+              <path d="M17.3542 0.286133H30.4662V3.65213H21.2482V5.83013H30.0262V9.15213H21.2482V11.3521H30.4662V14.7181H17.3542V0.286133Z" fill="white"/>
+              <path d="M0 0.286133H14.454V14.7181H10.56V3.76213H3.894V14.7181H0V0.286133Z" fill="white"/>
+            </svg>
+          </span>
+        </span>
+        <span class="title-row row-2">
+          <span class="title-face current">
+            <svg width="124" height="18" viewBox="0 0 124 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M114.348 15.004C112.602 15.004 111.062 14.7033 109.728 14.102C108.408 13.486 107.388 12.6207 106.67 11.506C105.951 10.3767 105.592 9.07133 105.592 7.59V7.436C105.592 5.94 105.951 4.63467 106.67 3.52C107.388 2.39067 108.408 1.52533 109.728 0.924C111.062 0.308 112.602 0 114.348 0C116.122 0 117.67 0.308 118.99 0.924C120.31 1.52533 121.329 2.39067 122.048 3.52C122.766 4.63467 123.126 5.94 123.126 7.436V7.59C123.126 9.086 122.766 10.3913 122.048 11.506C121.329 12.6207 120.31 13.486 118.99 14.102C117.67 14.7033 116.122 15.004 114.348 15.004ZM114.348 11.374C117.56 11.374 119.166 10.1347 119.166 7.656V7.392C119.166 6.16 118.755 5.22867 117.934 4.598C117.127 3.95267 115.932 3.63 114.348 3.63C112.793 3.63 111.605 3.95267 110.784 4.598C109.962 5.24333 109.552 6.17467 109.552 7.392V7.656C109.552 8.87333 109.955 9.79733 110.762 10.428C111.568 11.0587 112.764 11.374 114.348 11.374Z" fill="white"/>
+              <path d="M88.4684 0.286133H92.3624V5.76413H99.4684V0.286133H103.362V14.7181H99.4684V9.24013H92.3624V14.7181H88.4684V0.286133Z" fill="white"/>
+              <path d="M68.3123 11.2421H70.1383C70.8716 10.0835 71.2603 8.60947 71.3043 6.82013L71.4363 0.286133H84.4383V11.2421H86.6603V17.6441H82.7663V14.7181H72.2063V17.6441H68.3123V11.2421ZM80.5443 11.2421V3.78413H74.9563L74.8903 6.84213C74.8463 8.6608 74.5016 10.1275 73.8563 11.2421H80.5443Z" fill="white"/>
+              <path d="M59.4706 15.004C57.7253 15.004 56.1853 14.7033 54.8506 14.102C53.5306 13.486 52.5113 12.6207 51.7926 11.506C51.0739 10.3767 50.7146 9.07133 50.7146 7.59V7.436C50.7146 5.94 51.0739 4.63467 51.7926 3.52C52.5113 2.39067 53.5306 1.52533 54.8506 0.924C56.1853 0.308 57.7253 0 59.4706 0C61.2453 0 62.7926 0.308 64.1126 0.924C65.4326 1.52533 66.4519 2.39067 67.1706 3.52C67.8893 4.63467 68.2486 5.94 68.2486 7.436V7.59C68.2486 9.086 67.8893 10.3913 67.1706 11.506C66.4519 12.6207 65.4326 13.486 64.1126 14.102C62.7926 14.7033 61.2453 15.004 59.4706 15.004ZM59.4706 11.374C62.6826 11.374 64.2886 10.1347 64.2886 7.656V7.392C64.2886 6.16 63.8779 5.22867 63.0566 4.598C62.2499 3.95267 61.0546 3.63 59.4706 3.63C57.9159 3.63 56.7279 3.95267 55.9066 4.598C55.0853 5.24333 54.6746 6.17467 54.6746 7.392V7.656C54.6746 8.87333 55.0779 9.79733 55.8846 10.428C56.6913 11.0587 57.8866 11.374 59.4706 11.374Z" fill="white"/>
+              <path d="M39.1127 0.286133H51.0367V3.76213H43.0067V14.7181H39.1127V0.286133Z" fill="white"/>
+              <path d="M17.0754 0.286133H20.9694V4.99413H25.5234C27.3568 4.99413 28.7574 5.39747 29.7254 6.20413C30.7081 7.0108 31.1994 8.16947 31.1994 9.68013V9.94413C31.1994 11.4841 30.7081 12.6648 29.7254 13.4861C28.7574 14.3075 27.3568 14.7181 25.5234 14.7181H17.0754V0.286133ZM25.4354 11.3301C26.6381 11.3301 27.2394 10.8755 27.2394 9.96613V9.70213C27.2394 9.26213 27.0854 8.93213 26.7774 8.71213C26.4694 8.47747 26.0221 8.36013 25.4354 8.36013H20.9694V11.3301H25.4354ZM32.2994 0.286133H36.1934V14.7181H32.2994V0.286133Z" fill="white"/>
+              <path d="M0 0.286133H8.756C10.5013 0.286133 11.8507 0.623467 12.804 1.29813C13.7573 1.9728 14.234 2.93347 14.234 4.18013V4.40013C14.234 5.66147 13.728 6.64413 12.716 7.34813C13.3613 7.68547 13.8527 8.11813 14.19 8.64613C14.5273 9.17413 14.696 9.79013 14.696 10.4941V10.7141C14.696 11.9608 14.2047 12.9435 13.222 13.6621C12.254 14.3661 10.912 14.7181 9.196 14.7181H0V0.286133ZM9.108 11.3741C10.1787 11.3741 10.714 11.0075 10.714 10.2741V10.0541C10.714 9.33547 10.1787 8.97613 9.108 8.97613H3.894V11.3741H9.108ZM8.756 5.91813C9.29867 5.91813 9.69467 5.83747 9.944 5.67613C10.208 5.50013 10.34 5.23613 10.34 4.88413V4.66413C10.34 3.9748 9.812 3.63013 8.756 3.63013H3.894V5.91813H8.756Z" fill="white"/>
+            </svg>
+          </span>
+          <span class="title-face next">
+            <svg width="167" height="23" viewBox="0 0 167 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M152.45 16.4999L159.71 12.4519C160.444 12.0413 160.994 11.7039 161.36 11.4399C161.742 11.1613 161.998 10.9119 162.13 10.6919C162.277 10.4573 162.35 10.1933 162.35 9.89993V9.70193C162.35 9.17393 162.094 8.77059 161.58 8.49193C161.082 8.19859 160.356 8.05193 159.402 8.05193C158.376 8.05193 157.584 8.23526 157.026 8.60192C156.484 8.95393 156.212 9.47459 156.212 10.1639V10.6039H152.45V10.1419C152.45 8.36726 153.03 7.03259 154.188 6.13792C155.347 5.22859 157.063 4.77393 159.336 4.77393C161.522 4.77393 163.223 5.19193 164.44 6.02793C165.658 6.84926 166.266 8.00059 166.266 9.48193V9.70193C166.266 10.6993 165.922 11.6013 165.232 12.4079C164.558 13.1999 163.392 14.0579 161.734 14.9819L159.27 16.3459H166.53V19.4919H152.45V16.4999Z" fill="white"/>
+              <path d="M141.683 8.53606H136.337V5.06006H150.923V8.53606H145.577V19.4921H141.683V8.53606Z" fill="white"/>
+              <path d="M111.949 5.06006H120.705C122.451 5.06006 123.8 5.39739 124.753 6.07206C125.707 6.74673 126.183 7.70739 126.183 8.95406V9.17406C126.183 10.4354 125.677 11.4181 124.665 12.1221C125.311 12.4594 125.802 12.8921 126.139 13.4201C126.477 13.9481 126.645 14.5641 126.645 15.2681V15.4881C126.645 16.7347 126.154 17.7174 125.171 18.4361C124.203 19.1401 122.861 19.4921 121.145 19.4921H111.949V5.06006ZM121.057 16.1481C122.128 16.1481 122.663 15.7814 122.663 15.0481V14.8281C122.663 14.1094 122.128 13.7501 121.057 13.7501H115.843V16.1481H121.057ZM120.705 10.6921C121.248 10.6921 121.644 10.6114 121.893 10.4501C122.157 10.2741 122.289 10.0101 122.289 9.65806V9.43806C122.289 8.74873 121.761 8.40406 120.705 8.40406H115.843V10.6921H120.705Z" fill="white"/>
+              <path d="M85.5554 5.06H89.4054V14.124L96.5554 5.06H100.449V19.492H96.5994V10.428L89.4494 19.492H85.5554V5.06ZM93.0134 4.004C89.7428 4.004 88.1074 2.73533 88.1074 0.198V0H91.2314V0.198C91.2314 0.520667 91.3781 0.77 91.6714 0.945999C91.9794 1.10733 92.4268 1.188 93.0134 1.188C94.0694 1.188 94.5974 0.858 94.5974 0.198V0H97.9194V0.198C97.9194 1.474 97.5088 2.42733 96.6874 3.058C95.8808 3.68867 94.6561 4.004 93.0134 4.004Z" fill="white"/>
+              <path d="M69.877 5.06006H82.989V8.42606H73.771V10.6041H82.549V13.9261H73.771V16.1261H82.989V19.4921H69.877V5.06006Z" fill="white"/>
+              <path d="M59.6687 19.7779C56.9114 19.7779 54.8214 19.2499 53.3987 18.1939C51.9907 17.1233 51.2867 15.5539 51.2867 13.4859V13.3319H55.2027V13.4859C55.2027 14.4686 55.5621 15.1873 56.2807 15.6419C57.0141 16.0819 58.1874 16.3019 59.8007 16.3019C61.0034 16.3019 61.9201 16.1919 62.5507 15.9719C63.1961 15.7373 63.5187 15.3999 63.5187 14.9599V14.7399C63.5187 14.4759 63.4234 14.2779 63.2327 14.1459C63.0567 13.9993 62.7341 13.9039 62.2647 13.8599C61.7954 13.8013 61.0987 13.7719 60.1747 13.7719H57.2047V10.7359H60.0647C60.8714 10.7359 61.4947 10.7066 61.9347 10.6479C62.3894 10.5746 62.7047 10.4646 62.8807 10.3179C63.0714 10.1713 63.1667 9.96593 63.1667 9.70193V9.48193C63.1667 8.66059 61.9494 8.24993 59.5147 8.24993C58.0041 8.24993 56.9187 8.46993 56.2587 8.90993C55.6134 9.33526 55.2907 10.0466 55.2907 11.0439V11.1979H51.3747V11.0439C51.3747 9.00526 52.0714 7.45059 53.4647 6.37993C54.8727 5.30926 56.9187 4.77393 59.6027 4.77393C61.1574 4.77393 62.4994 4.94993 63.6287 5.30193C64.7581 5.65393 65.6234 6.15993 66.2247 6.81993C66.8261 7.46526 67.1267 8.24259 67.1267 9.15193V9.39393C67.1267 10.5819 66.5547 11.4986 65.4107 12.1439C66.0854 12.4666 66.5987 12.8699 66.9507 13.3539C67.3027 13.8379 67.4787 14.3953 67.4787 15.0259V15.2679C67.4787 16.6906 66.7894 17.7979 65.4107 18.5899C64.0321 19.3819 62.1181 19.7779 59.6687 19.7779Z" fill="white"/>
+              <path d="M37.598 16.0161H41.008C41.2866 16.0161 41.514 15.9867 41.69 15.9281L35.574 5.65406V5.06006H39.6L43.912 12.6941L47.652 5.06006H51.656V5.65406L46.244 15.9061C45.54 17.2407 44.8066 18.1721 44.044 18.7001C43.296 19.2281 42.3206 19.4921 41.118 19.4921H37.598V16.0161Z" fill="white"/>
+              <path d="M20.1561 5.06006H29.4181C31.1928 5.06006 32.5788 5.48539 33.5761 6.33606C34.5881 7.17206 35.0941 8.33073 35.0941 9.81206V10.0321C35.0941 11.5134 34.5881 12.6794 33.5761 13.5301C32.5788 14.3807 31.1928 14.8061 29.4181 14.8061H24.0501V19.4921H20.1561V5.06006ZM29.3301 11.4181C29.9168 11.4181 30.3641 11.3007 30.6721 11.0661C30.9801 10.8314 31.1341 10.4867 31.1341 10.0321V9.81206C31.1341 9.37206 30.9801 9.03473 30.6721 8.80006C30.3641 8.56539 29.9168 8.44806 29.3301 8.44806H24.0501V11.4181H29.3301Z" fill="white"/>
+              <path d="M0 16.0161H1.826C2.55933 14.8574 2.948 13.3834 2.992 11.5941L3.124 5.06006H16.126V16.0161H18.348V22.4181H14.454V19.4921H3.894V22.4181H0V16.0161ZM12.232 16.0161V8.55806H6.644L6.578 11.6161C6.534 13.4347 6.18933 14.9014 5.544 16.0161H12.232Z" fill="white"/>
+            </svg>
+          </span>
+        </span>
+      </div>
+      <div class="offer-bottom">
+        <img class="t2-logo" data-gif-src="logotype.gif" data-gif-trigger="title-start" alt="" aria-hidden="true" />
+      </div>
+    </div>
+    <div class="cta-button">
+      <img src="cta-more-ru.svg" alt="Подробнее" />
+    </div>
+    <div class="disclaimer">Реклама. Рекламодатель: ООО «Т2 Мобайл», Россия, 108811,г. Москва, п. Московский, <br/> Киевское шоссе, 22-й километр, д. 6, стр. 1, ОГРН: 1137746610088, ИНН: 7743895280, t2.ru | 0+</div>
+    <div class="layer final-fade" aria-hidden="true"></div>
+    <div class="layer final-screen" aria-hidden="true">
+      <img class="layer final-screen-logo" data-gif-src="logotype.gif" data-gif-delay="8220" alt="" aria-hidden="true" />
+      <div class="layer final-screen-copy">Реклама. Рекламодатель: ООО «Т2 Мобайл», Россия, 108811, г. Москва,<br /> п. Московский, Киевское шоссе, 22-й километр, д. 6, стр. 1, ОГРН: <br /> 1137746610088, ИНН: 7743895280, t2.ru | 0+ <br /> Подробнее о реферальной программе на t2.ru</div>
+    </div>
+  </a>
+
+  <script>
+    (function () {
+      var button = document.getElementById('button1');
+      var titleTrigger = document.querySelector('.title-row.row-1 .title-face.current');
+      var gifPlayers = document.querySelectorAll('[data-gif-src]');
+      var adStarted = false;
+      var GIF_START_ADVANCE_MS = 180;
+
+      if (!button) {
+        return;
+      }
+
+      function getClickTag() {
+        if (typeof window.clickTag === 'string' && window.clickTag) return window.clickTag;
+        var params = new URLSearchParams(window.location.search);
+        return params.get('clickTag') || params.get('clickTAG') || '';
+      }
+
+      function hasEB() {
+        return Boolean(
+          window.EB &&
+          window.EBG &&
+          window.EBG.EventName &&
+          window.EBG.EventName.EB_INITIALIZED &&
+          typeof window.EB.isInitialized === 'function' &&
+          typeof window.EB.clickthrough === 'function'
+        );
+      }
+
+      function clickthrough1(event) {
+        if (hasEB()) {
+          event.preventDefault();
+          window.EB.clickthrough();
+          return;
+        }
+
+        var href = button.getAttribute('href') || '';
+        if (!href || href.indexOf('%banner.') === 0) {
+          event.preventDefault();
+        }
+      }
+
+      function startAd() {
+        var currentHref;
+        var clickTag;
+
+        if (adStarted) {
+          return;
+        }
+
+        adStarted = true;
+        currentHref = button.getAttribute('href') || '';
+        clickTag = getClickTag();
+
+        if (clickTag && (!currentHref || currentHref.indexOf('%banner.') === 0)) {
+          button.setAttribute('href', clickTag);
+          button.setAttribute('target', '_blank');
+          button.setAttribute('rel', 'noopener');
+        }
+
+        button.addEventListener('click', clickthrough1);
+      }
+
+      function startGif(player) {
+        var src = player.getAttribute('data-gif-src');
+        var separator;
+
+        if (!src || player.getAttribute('data-gif-started') === 'true') {
+          return;
+        }
+
+        separator = src.indexOf('?') === -1 ? '?' : '&';
+        player.setAttribute('src', src + separator + 'play=' + Date.now());
+        player.setAttribute('data-gif-started', 'true');
+      }
+
+      function getFirstAnimationDelayMs(element) {
+        var animationDelay;
+        var firstDelay;
+        var value;
+
+        if (!element) {
+          return null;
+        }
+
+        animationDelay = window.getComputedStyle(element).animationDelay || '';
+        firstDelay = animationDelay.split(',')[0];
+
+        if (!firstDelay) {
+          return null;
+        }
+
+        value = firstDelay.trim();
+
+        if (value.slice(-2) === 'ms') {
+          return Number(value.slice(0, -2));
+        }
+
+        if (value.slice(-1) === 's') {
+          return Number(value.slice(0, -1)) * 1000;
+        }
+
+        return null;
+      }
+
+      function initGifPlayers() {
+        var titleStartDelay;
+
+        if (!gifPlayers.length) {
+          return;
+        }
+
+        titleStartDelay = getFirstAnimationDelayMs(titleTrigger);
+
+        gifPlayers.forEach(function (player) {
+          var trigger = player.getAttribute('data-gif-trigger');
+          var delay = Number(player.getAttribute('data-gif-delay')) || 0;
+
+          if (trigger === 'title-start') {
+            return;
+          }
+
+          window.setTimeout(function () {
+            startGif(player);
+          }, Math.max(delay - GIF_START_ADVANCE_MS, 0));
+        });
+
+        if (titleTrigger) {
+          if (titleStartDelay !== null) {
+            window.setTimeout(function () {
+              gifPlayers.forEach(function (player) {
+                if (player.getAttribute('data-gif-trigger') === 'title-start') {
+                  startGif(player);
+                }
+              });
+            }, Math.max(titleStartDelay - GIF_START_ADVANCE_MS, 0));
+          } else {
+            titleTrigger.addEventListener('animationstart', function (event) {
+              if (event.animationName === 'titleCurrentEnter') {
+                gifPlayers.forEach(function (player) {
+                  if (player.getAttribute('data-gif-trigger') === 'title-start') {
+                    startGif(player);
+                  }
+                });
+              }
+            }, { once: true });
+          }
+        }
+      }
+
+      function initEB() {
+        initGifPlayers();
+
+        if (hasEB()) {
+          if (!window.EB.isInitialized()) {
+            window.EB.addEventListener(window.EBG.EventName.EB_INITIALIZED, startAd);
+          } else {
+            startAd();
+          }
+          return;
+        }
+
+        startAd();
+      }
+
+      window.addEventListener('load', initEB);
+    })();
+  </script>
+</body>
+</html>
