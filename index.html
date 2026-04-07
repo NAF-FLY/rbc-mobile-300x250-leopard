@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=300, height=250, initial-scale=1.0" />
   <meta name="ad.size" content="width=300,height=250" />
-  <script type="text/javascript" src="https://ds.serving-sys.ru/BurstingScript/EBLoader.js"></script>
   <title>RBC Mobile 300x250 Leopard</title>
   <style>
     html,
@@ -41,6 +40,21 @@
       width: 300px;
       height: 250px;
       z-index: 0;
+      background:
+        radial-gradient(ellipse 238px 178px at 12% 24%, rgba(196, 196, 198, .96) 0%, rgba(171, 172, 176, .9) 30%, rgba(123, 126, 134, .54) 60%, rgba(77, 81, 91, .16) 80%, rgba(67, 70, 77, 0) 100%),
+        linear-gradient(180deg, #4f525a 0%, #464a53 44%, #3f434c 100%);
+    }
+
+    .character-scene {
+      left: 50%;
+      top: 50%;
+      width: 300px;
+      height: 250px;
+      z-index: 1;
+      transform-origin: 50% 50%;
+      will-change: transform;
+      pointer-events: none;
+      animation: characterSceneAnim 9.6s forwards;
     }
 
     .bottom-fade {
@@ -77,8 +91,6 @@
       width: 300px;
       height: 250px;
       z-index: 1;
-      transform: translate3d(-150px, 125px, 0) scale3d(2.244, 2.244, 1);
-      animation: bossAnim 9.6s forwards;
     }
 
     .leopard {
@@ -87,8 +99,20 @@
       width: 153px;
       height: 217px;
       z-index: 2;
-      transform: translate3d(20px, 182px, 0) scale3d(2.8861, 2.8861, 1);
-      animation: leopardAnim 9.6s forwards;
+    }
+
+    @keyframes characterSceneAnim {
+      from {
+        transform: translate(-50%, -50%) translate3d(-133px, 187px, 0) scale3d(3.295, 3.295, 1);
+        animation-timing-function: cubic-bezier(.22, .12, .38, 1);
+      }
+      10.4% {
+        transform: translate(-50%, -50%) translate3d(-125px, 176px, 0) scale3d(3.0557, 3.0557, 1);
+        animation-timing-function: cubic-bezier(.16, .68, .16, 1);
+      }
+      to {
+        transform: translate(-50%, -50%) translate3d(0, 0, 0) scale3d(1, 1, 1);
+      }
     }
 
     .offer-card,
@@ -251,8 +275,8 @@
 
     .offer-bottom {
       position: absolute;
-      right: 0px;
-      bottom: 0px;
+      right: 10px;
+      bottom: 10px;
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
@@ -269,7 +293,9 @@
     }
 
     .t2-logo:not([src]),
-    .final-screen-logo:not([src]) {
+    .final-screen-logo:not([src]),
+    .t2-logo:not([data-video-started='true']),
+    .final-screen-logo:not([data-video-started='true']) {
       visibility: hidden;
     }
 
@@ -310,7 +336,8 @@
       animation: buttonReveal .8s cubic-bezier(.22, .7, .2, 1) 6s forwards;
     }
 
-    .cta-button img {
+    .cta-button img,
+    .cta-button svg {
       display: block;
       width: 108px;
       height: auto;
@@ -366,7 +393,7 @@
       text-align: center;
       color: #fff;
       opacity: 0;
-      animation: finalScreenText .75s ease-out 10.3s forwards;
+      animation: finalScreenText .75s ease-out 10.05s forwards;
     }
 
     .failover-image {
@@ -574,9 +601,8 @@
 <body>
   <a class="banner" id="button1" href="%banner.reference_mrc_user1%" target="%banner.target%" aria-label="RBC Mobile 300x250 Leopard">
     <img class="failover-image" src="failover.jpg" alt="" />
-    <img class="layer bg key-asset" src="bg.png" alt="" />
-    <img class="layer boss key-asset" src="boss.png" alt="" />
-    <img class="layer leopard key-asset" src="leopard.png" alt="" />
+    <div class="layer bg key-asset" aria-hidden="true"></div>
+    <img class="layer character-scene key-asset" src="characters.png" alt="" aria-hidden="true" />
     <img class="layer corner-logo key-asset" src="logo.png" alt="" aria-hidden="true" />
     <div class="layer bottom-fade" aria-hidden="true"></div>
     <div class="bottom-panel-glow" aria-hidden="true"></div>
@@ -640,18 +666,28 @@
         </span>
       </div>
       <div class="offer-bottom">
-        <img class="t2-logo key-asset" data-gif-src="logotype.gif" data-gif-delay="2840" alt="" aria-hidden="true" />
+        <video class="t2-logo key-asset" data-video-delay="2840" aria-hidden="true" data-video-src="logo_anim.mp4" muted playsinline preload="auto"></video>
       </div>
     </div>
     <div class="cta-button">
       <span class="cta-button-content">
-        <img class="key-asset" src="cta-more-ru.svg" alt="Подробнее" />
+        <svg class="key-asset" role="img" aria-label="Подробнее" width="147" height="17" viewBox="0 0 147 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M134.722 0.260132H146.643V3.32057H138.262V5.30085H146.243V8.32129H138.262V10.3216H146.643V13.382H134.722V0.260132Z" fill="white"/>
+<path d="M119.666 0.260132H131.588V3.32057H123.207V5.30085H131.188V8.32129H123.207V10.3216H131.588V13.382H119.666V0.260132Z" fill="white"/>
+<path d="M102.677 0.260132H106.218V5.24085H112.679V0.260132H116.219V13.382H112.679V8.4013H106.218V13.382H102.677V0.260132Z" fill="white"/>
+<path d="M86.3718 0.260132H98.7136V3.30057H89.9123V5.34086H94.573C96.2666 5.34086 97.5468 5.67424 98.4136 6.341C99.2937 6.99443 99.7337 7.9679 99.7337 9.26142V9.46145C99.7337 10.7283 99.2937 11.7018 98.4136 12.3819C97.5334 13.0486 96.2532 13.382 94.573 13.382H86.3718V0.260132ZM94.513 10.3416C95.0331 10.3416 95.4331 10.2549 95.7132 10.0815C96.0065 9.90818 96.1532 9.65481 96.1532 9.32143V9.1214C96.1532 8.78802 96.0065 8.53465 95.7132 8.36129C95.4331 8.18793 95.0331 8.10125 94.513 8.10125H89.9123V10.3416H94.513Z" fill="white"/>
+<path d="M75.5711 13.642C73.9842 13.642 72.584 13.3686 71.3705 12.8218C70.1703 12.2618 69.2436 11.475 68.5901 10.4615C67.9367 9.43468 67.61 8.24785 67.61 6.90099V6.76097C67.61 5.40077 67.9367 4.21394 68.5901 3.20046C69.2436 2.17364 70.1703 1.38687 71.3705 0.84012C72.584 0.28004 73.9842 0 75.5711 0C77.1847 0 78.5916 0.28004 79.7917 0.84012C80.9919 1.38687 81.9187 2.17364 82.5721 3.20046C83.2256 4.21394 83.5523 5.40077 83.5523 6.76097V6.90099C83.5523 8.26118 83.2256 9.44802 82.5721 10.4615C81.9187 11.475 80.9919 12.2618 79.7917 12.8218C78.5916 13.3686 77.1847 13.642 75.5711 13.642ZM75.5711 10.3415C78.4915 10.3415 79.9518 9.21465 79.9518 6.961V6.72096C79.9518 5.6008 79.5784 4.75401 78.8316 4.1806C78.0982 3.59385 77.0113 3.30047 75.5711 3.30047C74.1576 3.30047 73.0774 3.59385 72.3307 4.1806C71.5839 4.76735 71.2105 5.61414 71.2105 6.72096V6.961C71.2105 8.06782 71.5772 8.90794 72.3107 9.48136C73.0441 10.0548 74.1309 10.3415 75.5711 10.3415Z" fill="white"/>
+<path d="M51.8856 0.260132H60.3068C61.9204 0.260132 63.1806 0.646854 64.0874 1.4203C65.0075 2.18041 65.4676 3.23389 65.4676 4.58075V4.78078C65.4676 6.12764 65.0075 7.18779 64.0874 7.96123C63.1806 8.73468 61.9204 9.1214 60.3068 9.1214H55.4261V13.382H51.8856V0.260132ZM60.2268 6.04096C60.7602 6.04096 61.1669 5.93428 61.447 5.72091C61.727 5.50755 61.8671 5.19417 61.8671 4.78078V4.58075C61.8671 4.18069 61.727 3.87398 61.447 3.66062C61.1669 3.44725 60.7602 3.34057 60.2268 3.34057H55.4261V6.04096H60.2268Z" fill="white"/>
+<path d="M32.7592 10.2216H34.4194C35.0862 9.16807 35.4395 7.82788 35.4795 6.20098L35.5996 0.260132H47.4213V10.2216H49.4415V16.0424H45.901V13.382H36.2997V16.0424H32.7592V10.2216ZM43.8807 10.2216V3.44059H38.8L38.74 6.22099C38.7 7.87456 38.3866 9.20808 37.7999 10.2216H43.8807Z" fill="white"/>
+<path d="M23.92 13.642C22.3331 13.642 20.9329 13.3686 19.7194 12.8218C18.5192 12.2618 17.5924 11.475 16.939 10.4615C16.2856 9.43468 15.9589 8.24785 15.9589 6.90099V6.76097C15.9589 5.40077 16.2856 4.21394 16.939 3.20046C17.5924 2.17364 18.5192 1.38687 19.7194 0.84012C20.9329 0.28004 22.3331 0 23.92 0C25.5336 0 26.9404 0.28004 28.1406 0.84012C29.3408 1.38687 30.2676 2.17364 30.921 3.20046C31.5744 4.21394 31.9011 5.40077 31.9011 6.76097V6.90099C31.9011 8.26118 31.5744 9.44802 30.921 10.4615C30.2676 11.475 29.3408 12.2618 28.1406 12.8218C26.9404 13.3686 25.5336 13.642 23.92 13.642ZM23.92 10.3415C26.8404 10.3415 28.3006 9.21465 28.3006 6.961V6.72096C28.3006 5.6008 27.9272 4.75401 27.1805 4.1806C26.447 3.59385 25.3602 3.30047 23.92 3.30047C22.5065 3.30047 21.4263 3.59385 20.6795 4.1806C19.9328 4.76735 19.5594 5.61414 19.5594 6.72096V6.961C19.5594 8.06782 19.9261 8.90794 20.6595 9.48136C21.393 10.0548 22.4798 10.3415 23.92 10.3415Z" fill="white"/>
+<path d="M0 0.260132H13.1419V13.382H9.60137V3.42058H3.54051V13.382H0V0.260132Z" fill="white"/>
+</svg>
       </span>
     </div>
     <div class="disclaimer">Реклама. Рекламодатель: ООО «Т2 Мобайл», Россия, 108811,г. Москва, п. Московский, <br/> Киевское шоссе, 22-й километр, д. 6, стр. 1, ОГРН: 1137746610088, ИНН: 7743895280, t2.ru | 0+</div>
     <div class="layer final-fade" aria-hidden="true"></div>
     <div class="layer final-screen" aria-hidden="true">
-      <img class="layer final-screen-logo key-asset" data-gif-src="logotype.gif" data-gif-delay="9600" alt="" aria-hidden="true" />
+      <video class="layer final-screen-logo key-asset" data-video-delay="9600" aria-hidden="true" data-video-src="logo_anim.mp4" muted playsinline preload="auto"></video>
       <div class="layer final-screen-copy">Реклама. Рекламодатель: ООО «Т2 Мобайл», Россия, 108811, г. Москва,<br /> п. Московский, Киевское шоссе, 22-й километр, д. 6, стр. 1, ОГРН: <br /> 1137746610088, ИНН: 7743895280, t2.ru | 0+ <br /> Подробнее о реферальной программе на t2.ru</div>
     </div>
   </a>
@@ -660,9 +696,9 @@
     (function () {
       var button = document.getElementById('button1');
       var titleTrigger = document.querySelector('.title-row.row-1 .title-face.current');
-      var gifPlayers = document.querySelectorAll('[data-gif-src]');
+      var videoPlayers = document.querySelectorAll('[data-video-src]');
       var adStarted = false;
-      var GIF_START_ADVANCE_MS = 180;
+      var VIDEO_START_ADVANCE_MS = 180;
 
       if (!button) {
         return;
@@ -672,30 +708,6 @@
         if (typeof window.clickTag === 'string' && window.clickTag) return window.clickTag;
         var params = new URLSearchParams(window.location.search);
         return params.get('clickTag') || params.get('clickTAG') || '';
-      }
-
-      function hasEB() {
-        return Boolean(
-          window.EB &&
-          window.EBG &&
-          window.EBG.EventName &&
-          window.EBG.EventName.EB_INITIALIZED &&
-          typeof window.EB.isInitialized === 'function' &&
-          typeof window.EB.clickthrough === 'function'
-        );
-      }
-
-      function clickthrough1(event) {
-        if (hasEB()) {
-          event.preventDefault();
-          window.EB.clickthrough();
-          return;
-        }
-
-        var href = button.getAttribute('href') || '';
-        if (!href || href.indexOf('%banner.') === 0) {
-          event.preventDefault();
-        }
       }
 
       function startAd() {
@@ -716,22 +728,44 @@
           button.setAttribute('rel', 'noopener');
         }
 
-        button.addEventListener('click', clickthrough1);
       }
 
-      function startGif(player) {
-        var src = player.getAttribute('data-gif-src');
-        var separator;
-
-        if (!src || player.getAttribute('data-gif-started') === 'true') {
+            function primeVideo(player) {
+        var src = player.getAttribute('data-video-src');
+        if (!src || player.getAttribute('src')) {
           return;
         }
-
-        separator = src.indexOf('?') === -1 ? '?' : '&';
-        player.setAttribute('src', src + separator + 'play=' + Date.now());
-        player.setAttribute('data-gif-started', 'true');
+        player.muted = true;
+        player.loop = false;
+        player.autoplay = false;
+        player.removeAttribute('loop');
+        player.removeAttribute('autoplay');
+        player.setAttribute('src', decodeURIComponent(src));
+        player.load();
       }
-
+      function startVideo(player) {
+        var playPromise;
+        if (player.getAttribute('data-video-started') === 'true') {
+          return;
+        }
+        primeVideo(player);
+        player.setAttribute('data-video-started', 'true');
+        if (player.readyState < 2) {
+          player.addEventListener('canplay', function handleCanPlay() {
+            var deferredPlayPromise;
+            player.removeEventListener('canplay', handleCanPlay);
+            deferredPlayPromise = player.play();
+            if (deferredPlayPromise && typeof deferredPlayPromise.catch === 'function') {
+              deferredPlayPromise.catch(function () {});
+            }
+          }, { once: true });
+          return;
+        }
+        playPromise = player.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(function () {});
+        }
+      }
       function getFirstAnimationDelayMs(element) {
         var animationDelay;
         var firstDelay;
@@ -761,43 +795,38 @@
         return null;
       }
 
-      function initGifPlayers() {
+            function initVideoPlayers() {
         var titleStartDelay;
-
-        if (!gifPlayers.length) {
+        if (!videoPlayers.length) {
           return;
         }
-
         titleStartDelay = getFirstAnimationDelayMs(titleTrigger);
-
-        gifPlayers.forEach(function (player) {
-          var trigger = player.getAttribute('data-gif-trigger');
-          var delay = Number(player.getAttribute('data-gif-delay')) || 0;
-
+        videoPlayers.forEach(function (player) {
+          var trigger = player.getAttribute('data-video-trigger');
+          var delay = Number(player.getAttribute('data-video-delay')) || 0;
+          primeVideo(player);
           if (trigger === 'title-start') {
             return;
           }
-
           window.setTimeout(function () {
-            startGif(player);
-          }, Math.max(delay - GIF_START_ADVANCE_MS, 0));
+            startVideo(player);
+          }, Math.max(delay - VIDEO_START_ADVANCE_MS, 0));
         });
-
         if (titleTrigger) {
           if (titleStartDelay !== null) {
             window.setTimeout(function () {
-              gifPlayers.forEach(function (player) {
-                if (player.getAttribute('data-gif-trigger') === 'title-start') {
-                  startGif(player);
+              videoPlayers.forEach(function (player) {
+                if (player.getAttribute('data-video-trigger') === 'title-start') {
+                  startVideo(player);
                 }
               });
-            }, Math.max(titleStartDelay - GIF_START_ADVANCE_MS, 0));
+            }, Math.max(titleStartDelay - VIDEO_START_ADVANCE_MS, 0));
           } else {
             titleTrigger.addEventListener('animationstart', function (event) {
               if (event.animationName === 'titleCurrentEnter') {
-                gifPlayers.forEach(function (player) {
-                  if (player.getAttribute('data-gif-trigger') === 'title-start') {
-                    startGif(player);
+                videoPlayers.forEach(function (player) {
+                  if (player.getAttribute('data-video-trigger') === 'title-start') {
+                    startVideo(player);
                   }
                 });
               }
@@ -805,19 +834,8 @@
           }
         }
       }
-
       function initEB() {
-        initGifPlayers();
-
-        if (hasEB()) {
-          if (!window.EB.isInitialized()) {
-            window.EB.addEventListener(window.EBG.EventName.EB_INITIALIZED, startAd);
-          } else {
-            startAd();
-          }
-          return;
-        }
-
+        initVideoPlayers();
         startAd();
       }
 
