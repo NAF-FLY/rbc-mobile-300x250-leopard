@@ -32,6 +32,7 @@
         var(--character-tall-screen-offset)
         + var(--character-short-screen-offset)
         - var(--character-short-screen-extra-offset-y, 0px)
+        - var(--character-mobile-extra-offset-y, 0px)
         - 22px
       );
       --copy-width: min(252px, calc(100vw - 40px));
@@ -448,6 +449,12 @@
         --offer-title-row-1-height: clamp(32px, calc(32px + (var(--content-height) - 250px) * 0.029), 46.8px);
         --offer-title-row-2-height: clamp(42px, calc(42px + (var(--content-height) - 250px) * 0.0376811594), 61.2px);
         --offer-title-row-2-current-top: clamp(6px, calc(6px + (var(--content-height) - 250px) * 0.0057971014), 9px);
+      }
+    }
+
+    @media (max-width: 459px) {
+      :root {
+        --character-mobile-extra-offset-y: 10px;
       }
     }
 
