@@ -52,6 +52,7 @@
       --cta-height: clamp(31.25px, calc(31.25px + (var(--content-height) - 250px) * 0.0836956522), 89px);
       --cta-font-size: clamp(10px, calc(10px + (var(--content-height) - 250px) * 0.0212765957), 20px);
       --cta-letter-spacing: clamp(0.2px, calc(0.2px + (var(--content-height) - 250px) * 0.0006382979), 0.5px);
+      --stack-bottom-extra: 0px;
     }
 
     * {
@@ -194,7 +195,7 @@
     }
 
     .offer-card {
-      bottom: 35px;
+      bottom: calc(35px + var(--stack-bottom-extra));
       z-index: 5;
       height: var(--offer-card-expanded-height);
       padding: var(--offer-card-padding);
@@ -346,11 +347,12 @@
     }
 
     .cta-button {
-      bottom: 35px;
+      bottom: calc(35px + var(--stack-bottom-extra));
       z-index: 6;
       height: var(--cta-height);
       border: 0;
       border-radius: 100px;
+      overflow: hidden;
       font-size: var(--cta-font-size);
       line-height: 1;
       font-weight: 900;
@@ -364,10 +366,11 @@
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: 100px;
       background: #FF3495;
-      clip-path: inset(100% 0 0 0 round 100px);
-      animation: buttonReveal .8s cubic-bezier(.22, .7, .2, 1) 6s forwards;
+      transform: scaleY(0);
+      transform-origin: center bottom;
+      will-change: transform;
+      animation: buttonRevealFill .8s cubic-bezier(.22, .7, .2, 1) 6s forwards;
     }
 
     .cta-button-content {
@@ -376,8 +379,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      clip-path: inset(100% 0 0 0 round 100px);
-      animation: buttonReveal .8s cubic-bezier(.22, .7, .2, 1) 6s forwards;
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+      will-change: opacity, transform;
+      animation: buttonRevealText .35s ease-out 6.2s forwards;
     }
 
     .cta-button svg {
@@ -596,12 +601,23 @@
       }
     }
 
-    @keyframes buttonReveal {
+    @keyframes buttonRevealFill {
       from {
-        clip-path: inset(100% 0 0 0 round 100px);
+        transform: scaleY(0);
       }
       to {
-        clip-path: inset(0 0 0 0 round 100px);
+        transform: scaleY(1);
+      }
+    }
+
+    @keyframes buttonRevealText {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 8px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
       }
     }
 
@@ -809,9 +825,12 @@
   <script>
     (function () {
       var button = document.getElementById('button1');
+      var disclaimer = document.querySelector('.disclaimer');
       var videoPlayers = document.querySelectorAll('[data-video-src]');
       var adStarted = false;
       var VIDEO_START_ADVANCE_MS = 180;
+      var BASE_STACK_BOTTOM = 35;
+      var STACK_GAP_ABOVE_LEGAL = 6;
 
       if (!button) {
         return;
@@ -907,12 +926,40 @@
         });
       }
 
+      function parsePx(value) {
+        var parsed = Number.parseFloat(value);
+        return Number.isFinite(parsed) ? parsed : 0;
+      }
+
+      function updateStackBottomOffset() {
+        var disclaimerStyles;
+        var disclaimerBottom;
+        var disclaimerHeight;
+        var requiredBottom;
+        var extraBottom;
+
+        if (!disclaimer) {
+          return;
+        }
+
+        disclaimerStyles = window.getComputedStyle(disclaimer);
+        disclaimerBottom = parsePx(disclaimerStyles.bottom);
+        disclaimerHeight = disclaimer.getBoundingClientRect().height;
+        requiredBottom = disclaimerBottom + disclaimerHeight + STACK_GAP_ABOVE_LEGAL;
+        extraBottom = Math.max(0, requiredBottom - BASE_STACK_BOTTOM);
+
+        document.documentElement.style.setProperty('--stack-bottom-extra', extraBottom.toFixed(2) + 'px');
+      }
+
       function initBanner() {
         initVideoPlayers();
+        updateStackBottomOffset();
         startAd();
       }
 
       window.addEventListener('load', initBanner);
+      window.addEventListener('resize', updateStackBottomOffset);
+      window.addEventListener('orientationchange', updateStackBottomOffset);
     })();
   </script>
 </body>
