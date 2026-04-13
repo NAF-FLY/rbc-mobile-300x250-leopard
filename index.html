@@ -382,7 +382,7 @@
 
     .cta-button svg {
       display: block;
-      width: clamp(108px, calc(var(--cta-height) * 3.45), 180px);
+      width: clamp(83px, calc(var(--cta-height) * 3.45), 130px);
       height: auto;
       padding-top: 2px;
     }
@@ -765,7 +765,13 @@
             </span>
           </div>
           <div class="offer-bottom">
-            <img class="t2-logo" src="logo.png" alt="" aria-hidden="true" />
+            <video
+              class="t2-logo"
+              data-video-src="logo_anim.mp4"
+              muted
+              playsinline
+              preload="auto"
+              aria-hidden="true"></video>
           </div>
         </div>
       </div>
@@ -788,7 +794,14 @@
     </div>
     <div class="final-fade" aria-hidden="true"></div>
     <div class="final-screen" aria-hidden="true">
-      <img class="final-screen-logo" src="logo.png" alt="" aria-hidden="true" />
+      <video
+        class="final-screen-logo"
+        data-video-src="logo_anim.mp4"
+        data-video-delay="9600"
+        muted
+        playsinline
+        preload="auto"
+        aria-hidden="true"></video>
       <div class="final-screen-copy">Реклама. Рекламодатель: ООО «Т2 Мобайл», Россия, 108811, г. Москва, п. Московский, Киевское&nbsp;шоссе, 22-й километр, д. 6, стр. 1, ОГРН: 1137746610088, ИНН: 7743895280, t2.ru | 0+<br />Подробнее о реферальной программе на t2.ru</div>
     </div></div>
   </a>
